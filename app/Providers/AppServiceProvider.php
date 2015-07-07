@@ -2,6 +2,7 @@
 
 namespace CodeCommerce\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        DB::statement(DB::raw('PRAGMA foreign_keys=1'));
     }
 }

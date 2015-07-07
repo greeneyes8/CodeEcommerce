@@ -2,19 +2,18 @@
 
 namespace CodeCommerce\Http\Controllers;
 
+use CodeCommerce\Category;
+use CodeCommerce\Http\Requests;
 use CodeCommerce\Http\Requests\ProductRequest;
 use CodeCommerce\Product;
 
-use CodeCommerce\Http\Requests;
-use CodeCommerce\Http\Controllers\Controller;
-
 class ProductsController extends Controller
 {
-    private $productsModel;
+    private $model;
 
-    public function __construct(Product $productsModel)
+    public function __construct(Product $model)
     {
-        $this->productsModel = $productsModel;
+        $this->model = $model;
     }
 
     /**
@@ -22,16 +21,17 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = $this->productsModel->all();
+        $products = $this->model->paginate(10);
         return view('products.index', compact('products'));
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Category $category)
     {
-        return view('products.create');
+        $categories = $category::lists('name', 'id');
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -42,7 +42,7 @@ class ProductsController extends Controller
     {
         $input = $request->all();
 
-        $product = $this->productsModel->fill($input);
+        $product = $this->model->fill($input);
 
         $product->save();
 
@@ -53,11 +53,12 @@ class ProductsController extends Controller
      * @param $id
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit($id, Category $category)
     {
-        $product = $this->productsModel->find($id);
+        $product = $this->model->find($id);
+        $categories = $category::lists('name', 'id');
 
-        return view('products.edit', compact('product'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -67,7 +68,7 @@ class ProductsController extends Controller
      */
     public function update($id, ProductRequest $request)
     {
-        $this->productsModel->find($id)->update($request->all());
+        $this->model->find($id)->update($request->all());
 
         return redirect()->route('products.index');
     }
@@ -78,7 +79,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        $this->productsModel->find($id)->delete();
+        $this->model->find($id)->delete();
 
         return redirect()->route('products.index');
     }

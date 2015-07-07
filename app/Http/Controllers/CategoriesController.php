@@ -3,18 +3,16 @@
 namespace CodeCommerce\Http\Controllers;
 
 use CodeCommerce\Category;
-use CodeCommerce\Http\Requests\CategoryRequest;
-
 use CodeCommerce\Http\Requests;
-use CodeCommerce\Http\Controllers\Controller;
+use CodeCommerce\Http\Requests\CategoryRequest;
 
 class CategoriesController extends Controller
 {
-    private $categoryModel;
+    private $model;
 
-    public function __construct(Category $categoryModel)
+    public function __construct(Category $model)
     {
-        $this->categoryModel = $categoryModel;
+        $this->model = $model;
     }
 
     /**
@@ -22,7 +20,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryModel->all();
+        $categories = $this->model->paginate(10);
         return view('categories.index', compact('categories'));
     }
 
@@ -42,7 +40,7 @@ class CategoriesController extends Controller
     {
         $input = $request->all();
 
-        $category = $this->categoryModel->fill($input);
+        $category = $this->model->fill($input);
 
         $category->save();
 
@@ -55,7 +53,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->categoryModel->find($id);
+        $category = $this->model->find($id);
 
         return view('categories.edit', compact('category'));
     }
@@ -67,7 +65,7 @@ class CategoriesController extends Controller
      */
     public function update($id, CategoryRequest $request)
     {
-        $this->categoryModel->find($id)->update($request->all());
+        $this->model->find($id)->update($request->all());
 
         return redirect()->route('categories.index');
     }
@@ -78,7 +76,7 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $this->categoryModel->find($id)->delete();
+        $this->model->find($id)->delete();
 
         return redirect()->route('categories.index');
     }

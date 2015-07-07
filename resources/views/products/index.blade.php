@@ -16,8 +16,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Price</th>
-                    <th>Featured</th>
-                    <th>Recommend</th>
+                    <th>Category</th>
                     <th colspan="2">Action</th>
                 </tr>
             </thead>
@@ -26,10 +25,9 @@
                 <tr>
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>
-                    <td>{{ $product->description }}</td>
+                    <td>{{ str_limit($product->description, 100, '...') }}</td>
                     <td>{{ $product->price }}</td>
-                    <td>{{ $product->featured }}</td>
-                    <td>{{ $product->recommend }}</td>
+                    <td>{{ $product->category->name }}</td>
                     <td width="70px"><a href="{{ route('products.edit', [$product->id]) }}" class="btn btn-link btn-sm">Edit</a></td>
                     <td width="70px">
                         {!! \Form::model($product, ['method' => 'DELETE', 'url' => route('products.destroy', [$product->id])]) !!}
@@ -40,5 +38,7 @@
             @endforeach
             </tbody>
         </table>
+
+        {!! $products->render() !!}
     </div>
 @endsection

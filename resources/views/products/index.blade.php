@@ -17,7 +17,7 @@
                     <th>Description</th>
                     <th>Price</th>
                     <th>Category</th>
-                    <th colspan="2">Action</th>
+                    <th colspan="3">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,8 +28,9 @@
                     <td>{{ str_limit($product->description, 100, '...') }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->category->name }}</td>
-                    <td width="70px"><a href="{{ route('products.edit', [$product->id]) }}" class="btn btn-link btn-sm">Edit</a></td>
-                    <td width="70px">
+                    <td width="45px"><a href="{{ route('products.edit', [$product->id]) }}" class="btn btn-link btn-sm">Edit</a></td>
+                    <td width="45px"><a href="{{ route('products.images', [$product->id]) }}" class="btn btn-link btn-sm">Images</a></td>
+                    <td width="45px">
                         {!! \Form::model($product, ['method' => 'DELETE', 'url' => route('products.destroy', [$product->id])]) !!}
                         <button type="submit" class="btn-delete btn btn-link btn-sm text-red">Delete</button>
                         {!! \Form::close()!!}

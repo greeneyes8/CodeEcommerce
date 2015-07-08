@@ -43,6 +43,11 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('tag_list') !!}
+            {!! Form::textarea('tag_list', null, ['class' => 'form-control', 'rows' => '1']) !!}
+        </div>
+
+        <div class="form-group">
             {!! Form::submit('Save Product', ['class' => 'btn btn-primary']) !!}
         </div>
 

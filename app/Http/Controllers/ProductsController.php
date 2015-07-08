@@ -8,6 +8,7 @@ use CodeCommerce\Http\Requests\ProductImageRequest;
 use CodeCommerce\Http\Requests\ProductRequest;
 use CodeCommerce\Product;
 use CodeCommerce\ProductImage;
+use CodeCommerce\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -49,9 +50,23 @@ class ProductsController extends Controller {
     {
         $input = $request->all();
 
+        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
+        $tags = [];
+
+        foreach($tag_list as $tag){
+            $obj = Tag::findByName($tag)->first();
+            if(!count($obj)){
+                $obj = Tag::create(['name' => trim($tag)]);
+            }
+
+            $tags[] = $obj->id;
+        }
+
         $product = $this->model->fill($input);
 
         $product->save();
+
+        $product->tags()->sync($tags);
 
         return redirect()->route('products.index');
     }
@@ -75,7 +90,25 @@ class ProductsController extends Controller {
      */
     public function update($id, ProductRequest $request)
     {
-        $this->model->find($id)->update($request->all());
+        $input = $request->all();
+
+        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
+        $tags = [];
+
+        foreach($tag_list as $tag){
+            $obj = Tag::findByName($tag)->first();
+            if(!count($obj)){
+                $obj = Tag::create(['name' => trim($tag)]);
+            }
+
+            $tags[] = $obj->id;
+        }
+
+        $product = $this->model->find($id);
+        $product->update($input);
+
+        $product->tags()->sync($tags);
+
 
         return redirect()->route('products.index');
     }

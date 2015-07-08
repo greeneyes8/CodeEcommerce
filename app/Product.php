@@ -17,4 +17,16 @@ class Product extends Model {
     {
         return $this->belongsTo(\CodeCommerce\Category::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(\CodeCommerce\Tag::class);
+    }
+
+    public function getTagListAttribute()
+    {
+        $tags = $this->tags->lists('name')->toArray();
+
+        return implode(',', $tags);
+    }
 }

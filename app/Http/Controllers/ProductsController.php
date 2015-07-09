@@ -49,7 +49,7 @@ class ProductsController extends Controller {
     public function store(ProductRequest $request)
     {
         $input = $request->all();
-        $tag_list = explode(',', str_replace(';', '', $input['tag_list']));
+        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
         $tags = [];
 
         foreach($tag_list as $tag){
@@ -85,7 +85,7 @@ class ProductsController extends Controller {
     public function update($id, ProductRequest $request)
     {
         $input = $request->all();
-        $tag_list = explode(',', str_replace(';', '', $input['tag_list']));
+        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
         $tags = [];
 
         foreach($tag_list as $tag){

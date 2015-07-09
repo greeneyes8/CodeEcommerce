@@ -48,18 +48,10 @@ class ProductsController extends Controller {
      */
     public function store(ProductRequest $request)
     {
-        $input = $request->all();
-        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
-        $tags = [];
-
-        foreach($tag_list as $tag){
-            $tags[] = Tag::firstOrCreate(['name' => trim($tag)])->id;
-        }
-
+        $input   = $request->all();
         $product = $this->model->fill($input);
-
         $product->save();
-
+        $tags = $this->getTagsIds($input['tag_list']);
         $product->tags()->sync($tags);
 
         return redirect()->route('products.index');
@@ -84,16 +76,10 @@ class ProductsController extends Controller {
      */
     public function update($id, ProductRequest $request)
     {
-        $input = $request->all();
-        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
-        $tags = [];
-
-        foreach($tag_list as $tag){
-            $tags[] = Tag::firstOrCreate(['name' => trim($tag)])->id;
-        }
-
+        $input   = $request->all();
         $product = $this->model->find($id);
         $product->update($input);
+        $tags = $this->getTagsIds($input['tag_list']);
         $product->tags()->sync($tags);
 
         return redirect()->route('products.index');
@@ -107,7 +93,7 @@ class ProductsController extends Controller {
     {
         $product = $this->model->find($id);
 
-        foreach($product->images as $image)
+        foreach ($product->images as $image)
         {
             if (file_exists(public_path('uploads') . '/' . $image->id . '.' . $image->extension))
             {
@@ -138,12 +124,12 @@ class ProductsController extends Controller {
 
     public function storeImage($id, ProductImageRequest $request, ProductImage $productImage)
     {
-        $file = $request->file('image');
+        $file      = $request->file('image');
         $extension = $file->getClientOriginalExtension();
 
         $image = $productImage::create(['product_id' => $id, 'extension' => $extension]);
 
-        Storage::disk('public_local')->put($image->id.'.'.$extension, File::get($file));
+        Storage::disk('public_local')->put($image->id . '.' . $extension, File::get($file));
 
         return redirect()->route('products.images', [$id]);
     }
@@ -152,7 +138,7 @@ class ProductsController extends Controller {
     {
         $image = $productImage->find($id_image);
 
-        if(file_exists(public_path('uploads').'/'.$image->id.'.'.$image->extension))
+        if (file_exists(public_path('uploads') . '/' . $image->id . '.' . $image->extension))
         {
             Storage::disk('public_local')->delete($image->id . '.' . $image->extension);
         }
@@ -160,5 +146,18 @@ class ProductsController extends Controller {
         $image->delete();
 
         return redirect()->route('products.images', [$id]);
+    }
+
+    protected function getTagsIds($tag_list)
+    {
+        $tag_list = explode(',', str_replace(';', ',', $tag_list));
+        $tags     = [];
+
+        foreach ($tag_list as $tag)
+        {
+            $tags[] = Tag::firstOrCreate(['name' => trim($tag)])->id;
+        }
+
+        return $tags;
     }
 }

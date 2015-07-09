@@ -49,17 +49,11 @@ class ProductsController extends Controller {
     public function store(ProductRequest $request)
     {
         $input = $request->all();
-
-        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
+        $tag_list = explode(',', str_replace(';', '', $input['tag_list']));
         $tags = [];
 
         foreach($tag_list as $tag){
-            $obj = Tag::findByName($tag)->first();
-            if(!count($obj)){
-                $obj = Tag::create(['name' => trim($tag)]);
-            }
-
-            $tags[] = $obj->id;
+            $tags[] = Tag::firstOrCreate(['name' => trim($tag)])->id;
         }
 
         $product = $this->model->fill($input);
@@ -91,24 +85,16 @@ class ProductsController extends Controller {
     public function update($id, ProductRequest $request)
     {
         $input = $request->all();
-
-        $tag_list = explode(',', str_replace(';', ',', $input['tag_list']));
+        $tag_list = explode(',', str_replace(';', '', $input['tag_list']));
         $tags = [];
 
         foreach($tag_list as $tag){
-            $obj = Tag::findByName($tag)->first();
-            if(!count($obj)){
-                $obj = Tag::create(['name' => trim($tag)]);
-            }
-
-            $tags[] = $obj->id;
+            $tags[] = Tag::firstOrCreate(['name' => trim($tag)])->id;
         }
 
         $product = $this->model->find($id);
         $product->update($input);
-
         $product->tags()->sync($tags);
-
 
         return redirect()->route('products.index');
     }

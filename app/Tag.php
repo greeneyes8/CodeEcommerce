@@ -14,9 +14,4 @@ class Tag extends Model {
     {
         return $this->belongsToMany(\CodeCommerce\Product::class);
     }
-
-    public static function findByName($value)
-    {
-        return Tag::where('name', trim($value));
-    }
 }

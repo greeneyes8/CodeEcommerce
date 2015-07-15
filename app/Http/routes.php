@@ -1,9 +1,6 @@
 <?php
 
-Route::get('/', function ()
-{
-    return view('welcome');
-});
+Route::get('/', ['as' => 'store.index', 'uses' => 'StoreController@index']);
 
 Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+']], function ()
 {

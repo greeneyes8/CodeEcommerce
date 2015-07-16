@@ -106,7 +106,7 @@
                         <div class="productinfo text-center">
 
 
-                            <img src="{{ url('') }}/uploads/14.jpg" alt=""/>
+                            <img src="{{ url('') }}/images/no-img.jpg" alt=""/>
 
 
                             <h2>R$ 34.343,00</h2>

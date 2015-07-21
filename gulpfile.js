@@ -18,6 +18,7 @@ elixir(function (mix) {
         'font-awesome.min.css',
         'prettyPhoto.css',
         'animate.css',
+        'loading.css',
         'main.css',
         'responsive.css',
     ], 'public/css/all.css');

@@ -140,6 +140,8 @@
 </footer>
 <!--/Footer-->
 
+@include('store.partials.loading')
+
 <script src="{{ elixir('js/all.js') }}"></script>
 
 </body>

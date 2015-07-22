@@ -16,6 +16,7 @@ $factory->define(CodeCommerce\User::class, function ($faker)
     return [
         'name'           => $faker->name,
         'email'          => $faker->email,
+        'is_admin'       => false,
         'password'       => str_random(10),
         'remember_token' => str_random(10),
     ];
@@ -44,6 +45,6 @@ $factory->define(CodeCommerce\Product::class, function ($faker)
 $factory->define(CodeCommerce\Tag::class, function ($faker)
 {
     return [
-        'name'        => $faker->word
+        'name' => $faker->word
     ];
 });

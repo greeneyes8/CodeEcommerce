@@ -83,7 +83,7 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <a href="#" class="btn btn-success">FINALIZAR <strong>COMPRA</strong></a>
+                            <a href="{{ route('checkout.place') }}" class="btn btn-success">FINALIZAR <strong>COMPRA</strong></a>
                         </td>
                     </tr>
                     @endif

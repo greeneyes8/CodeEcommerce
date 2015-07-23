@@ -3,6 +3,7 @@
 namespace CodeCommerce;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model {
     protected $fillable = [
@@ -19,5 +20,14 @@ class Order extends Model {
     public function user()
     {
         return $this->belongsTo(\CodeCommerce\User::class);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUserId($query)
+    {
+        return $query->where('user_id', Auth::user()->id);
     }
 }

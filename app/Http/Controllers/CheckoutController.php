@@ -26,7 +26,8 @@ class CheckoutController extends Controller {
         if ($cart->getTotal() > 0)
         {
 
-            DB::transaction(function () use ($cart, $orderModel, $orderItem)
+            DB::beginTransaction();
+            try
             {
                 $order = $orderModel->create(['user_id' => Auth::user()->id, 'total' => $cart->getTotal()]);
                 foreach ($cart->all() as $k => $item)
@@ -34,7 +35,30 @@ class CheckoutController extends Controller {
 
                     $order->items()->create(['product_id' => $k, 'price' => $item['price'], 'qtd' => $item['qtd']]);
                 }
-            });
+
+                Session::forget('cart');
+            }
+            catch (\Exception $e)
+            {
+                DB::rollBack();
+                \Flash::error('Erro ao inserir Pedido!' . $e);
+
+                return redirect()->back()->withInput();
+            }
         }
+
+        return redirect()->route('checkout.resume', ['id' => $order->id]);
+    }
+
+    public function resume($id)
+    {
+        $order = Order::find($id);
+
+        if ( ! $order)
+        {
+            return redirect('/');
+        }
+
+        return view('store.resume', compact('order'));
     }
 }

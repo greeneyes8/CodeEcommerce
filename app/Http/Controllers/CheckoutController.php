@@ -37,6 +37,8 @@ class CheckoutController extends Controller {
                 }
 
                 Session::forget('cart');
+
+                DB::commit();
             }
             catch (\Exception $e)
             {

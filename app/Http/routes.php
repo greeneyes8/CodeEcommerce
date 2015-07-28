@@ -15,8 +15,11 @@ Route::group(['prefix' => 'cart', 'where' => ['id' => '[0-9]+']], function ()
 
 Route::group(['middleware' => 'auth'], function ()
 {
-    Route::get('checkout/placeOrder', ['as' => 'checkout.place', 'uses' => 'CheckoutController@place']);
-    Route::get('checkout/resume/{id}', ['as' => 'checkout.resume', 'uses' => 'CheckoutController@resume']);
+    Route::get('checkout/placeOrder', ['as' => 'store.checkout.place', 'uses' => 'CheckoutController@place']);
+    Route::get('checkout/{id}', ['as' => 'store.checkout', 'uses' => 'CheckoutController@checkout']);
+
+    Route::get('account', ['as' => 'account', 'uses' => 'AccountController@index']);
+    Route::get('account/orders', ['as' => 'account.orders', 'uses' => 'AccountController@orders']);
 });
 
 Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+'], 'middleware' => ['auth', 'isAdmin']], function ()

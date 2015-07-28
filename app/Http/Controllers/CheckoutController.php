@@ -49,18 +49,13 @@ class CheckoutController extends Controller {
             }
         }
 
-        return redirect()->route('checkout.resume', ['id' => $order->id]);
+        return redirect()->route('store.checkout', ['id' => $order->id]);
     }
 
-    public function resume($id)
+    public function checkout($id)
     {
-        $order = Order::find($id);
+        $order = Order::where('id', $id)->IsOwner()->firstOrFail();
 
-        if ( ! $order)
-        {
-            return redirect('/');
-        }
-
-        return view('store.resume', compact('order'));
+        return view('store.checkout', compact('order'));
     }
 }

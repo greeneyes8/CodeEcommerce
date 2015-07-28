@@ -26,7 +26,7 @@ class Order extends Model {
      * @param $query
      * @return mixed
      */
-    public function scopeUserId($query)
+    public function scopeIsOwner($query)
     {
         return $query->where('user_id', Auth::user()->id);
     }

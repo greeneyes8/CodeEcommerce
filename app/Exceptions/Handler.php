@@ -3,6 +3,7 @@
 namespace CodeCommerce\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -38,6 +39,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e instanceOf ModelNotFoundException)
+        {
+            abort(404);
+        }
+
         return parent::render($request, $e);
     }
 }

@@ -52,9 +52,4 @@ class Cart {
         return $total;
     }
 
-    private function exists($id)
-    {
-        return (isset($this->itens[$id])) ? $this->itens[$id]['qtd'] : false;
-    }
-
 }

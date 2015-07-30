@@ -9,7 +9,7 @@ class Order extends Model {
     protected $fillable = [
         'user_id',
         'total',
-        'status',
+        'stat_id',
     ];
 
     public function items()
@@ -20,6 +20,11 @@ class Order extends Model {
     public function user()
     {
         return $this->belongsTo(\CodeCommerce\User::class);
+    }
+
+    public function stat()
+    {
+        return $this->belongsTo(\CodeCommerce\Stat::class);
     }
 
     /**

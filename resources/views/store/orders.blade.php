@@ -27,7 +27,7 @@
                     </ul>
                 </td>
                 <td>{{ number_format($order->total, 2, ',', '.') }}</td>
-                <td>{{ $order->status }}</td>
+                <td>{{ $order->stat->name }}</td>
             </tr>
             @endforeach
             </tbody>

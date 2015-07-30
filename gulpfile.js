@@ -1,4 +1,6 @@
+var gulp = require('gulp');
 var elixir = require('laravel-elixir');
+var del = require('del');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,6 +13,11 @@ var elixir = require('laravel-elixir');
  |
  */
 
+
+gulp.task('remove', function () {
+    del(['public/css', 'public/js']);
+});
+
 elixir(function (mix) {
 
     mix.styles([
@@ -21,21 +28,24 @@ elixir(function (mix) {
         'loading.css',
         'main.css',
         'responsive.css',
-    ], 'public/css/all.css');
+    ], 'public/css/all.css')
 
-    mix.scripts([
-        'jquery.js',
-        'bootstrap.min.js',
-        'jquery.scrollUp.min.js',
-        'price-range.js',
-        'jquery.prettyPhoto.js',
-        'main.js',
-    ], 'public/js/all.js');
+        .scripts([
+            'jquery.js',
+            'bootstrap.min.js',
+            'jquery.scrollUp.min.js',
+            'price-range.js',
+            'jquery.prettyPhoto.js',
+            'main.js',
+        ], 'public/js/all.js')
 
-    mix.version([
-        'css/all.css',
-        'js/all.js'
-    ]);
+        .version([
+            'public/css/all.css',
+            'public/js/all.js'
+        ])
 
-    mix.copy('resources/assets/fonts', 'public/build/fonts')
+        .copy('resources/assets/fonts', 'public/build/fonts')
+        .copy('resources/assets/images', 'public/build/images')
+        .task('remove');
+
 });

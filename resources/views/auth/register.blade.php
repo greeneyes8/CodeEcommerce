@@ -50,6 +50,20 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-md-4 control-label">Postal Code</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="postal_code" value="{{ old('postal_code') }}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label">Address</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="address" value="{{ old('address') }}">
+							</div>
+						</div>
+
+						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
 									Register

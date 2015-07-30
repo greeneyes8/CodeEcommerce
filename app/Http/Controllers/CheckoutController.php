@@ -2,19 +2,16 @@
 
 namespace CodeCommerce\Http\Controllers;
 
-use CodeCommerce\Order;
-use CodeCommerce\OrderItem;
-use Illuminate\Http\Request;
-
+use CodeCommerce\Events\CheckoutEvent;
 use CodeCommerce\Http\Requests;
-use CodeCommerce\Http\Controllers\Controller;
+use CodeCommerce\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller {
 
-    public function place(Order $orderModel, OrderItem $orderItem)
+    public function place(Order $orderModel)
     {
         if ( ! Session::has('cart'))
         {
@@ -29,21 +26,22 @@ class CheckoutController extends Controller {
             DB::beginTransaction();
             try
             {
-                $order = $orderModel->create(['user_id' => Auth::user()->id, 'total' => $cart->getTotal()]);
+                $order = $orderModel->create(['user_id' => Auth::user()->id, 'total' => $cart->getTotal(), 'stats_id' => 1]);
                 foreach ($cart->all() as $k => $item)
                 {
-
                     $order->items()->create(['product_id' => $k, 'price' => $item['price'], 'qtd' => $item['qtd']]);
                 }
 
                 Session::forget('cart');
 
                 DB::commit();
+
+                event(new CheckoutEvent(Auth::user(), $order));
             }
             catch (\Exception $e)
             {
                 DB::rollBack();
-                \Flash::error('Erro ao inserir Pedido!' . $e);
+                \Flash::error('Erro ao inserir Pedido. Tente novamente mais tarde!');
 
                 return redirect()->back()->withInput();
             }

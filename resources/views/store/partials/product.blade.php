@@ -6,7 +6,7 @@
                 @if(count($product->images))
                     <img src="{{ url('uploads/'.$product->images->first()->id.'.'.$product->images->first()->extension) }}" alt="" width="200px"/>
                 @else
-                    <img src="{{ url('images/no-img.jpg') }}" alt="" width="200px"/>
+                    <img src="{{ url('build/images/no-img.jpg') }}" alt="" width="200px"/>
                 @endif
                 <h2>R$ {{ number_format($product->price, 2, ',', '.') }}</h2>
                 <p>{{ $product->name }}</p>

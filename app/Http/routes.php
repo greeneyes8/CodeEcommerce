@@ -52,6 +52,12 @@ Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+'], 'middleware' =
             Route::delete('{id_image}', ['as' => 'products.images.destroy', 'uses' => 'ProductsController@destroyImage'])->where(['id_image' => '[0-9]+']);
         });
     });
+
+    Route::group(['prefix' => 'orders'], function ()
+    {
+        Route::get('', ['as' => 'orders.index', 'uses' => 'OrdersController@index']);
+        Route::put('{id}', ['as' => 'orders.update', 'uses' => 'OrdersController@update']);
+    });
 });
 
 Route::controllers([

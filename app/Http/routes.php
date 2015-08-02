@@ -4,6 +4,7 @@ Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
 Route::get('category/{id}', ['as' => 'store.category', 'uses' => 'StoreController@category']);
 Route::get('product/{id}', ['as' => 'store.product', 'uses' => 'StoreController@product']);
 Route::get('tag/{id}', ['as' => 'store.tag', 'uses' => 'StoreController@tag']);
+Route::get('test', 'CheckoutController@test');
 
 Route::group(['prefix' => 'cart', 'where' => ['id' => '[0-9]+']], function ()
 {
@@ -13,10 +14,13 @@ Route::group(['prefix' => 'cart', 'where' => ['id' => '[0-9]+']], function ()
     Route::post('update/{id}', ['as' => 'cart.update', 'uses' => 'CartController@update']);
 });
 
+Route::post('payment_status', ['as' => 'payment_status', 'uses' => 'CheckoutController@payment_status']);
+
 Route::group(['middleware' => 'auth'], function ()
 {
     Route::get('checkout/placeOrder', ['as' => 'store.checkout.place', 'uses' => 'CheckoutController@place']);
     Route::get('checkout/{id}', ['as' => 'store.checkout', 'uses' => 'CheckoutController@checkout']);
+    Route::get('payment/{id}', ['as' => 'store.payment', 'uses' => 'CheckoutController@payment']);
 
     Route::get('account', ['as' => 'account', 'uses' => 'AccountController@index']);
     Route::get('account/orders', ['as' => 'account.orders', 'uses' => 'AccountController@orders']);

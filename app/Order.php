@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class Order extends Model {
+
     protected $fillable = [
         'user_id',
         'total',
         'stat_id',
+        'code_pagseguro'
     ];
 
     public function items()

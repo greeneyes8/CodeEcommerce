@@ -145,6 +145,7 @@ return [
         CodeCommerce\Providers\EventServiceProvider::class,
         CodeCommerce\Providers\RouteServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        LaravelPagseguro\LaravelPagseguroServiceProvider::class,
 
     ],
 

@@ -14,15 +14,7 @@
 
         {!! Form::model($category, ['method' => 'PUT', 'url' => route('categories.update', [$category->id])]) !!}
 
-        <div class="form-group">
-            {!! Form::label('name', 'Name:') !!}
-            {!! Form::text('name', null, ['class' => 'form-control']) !!}
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('description', 'Description:') !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-        </div>
+        @include('categories._form')
 
         <div class="form-group">
             {!! Form::submit('Save Category', ['class' => 'btn btn-primary']) !!}

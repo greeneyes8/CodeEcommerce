@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        DB::statement(DB::raw('PRAGMA foreign_keys=1'));
+//        DB::statement(DB::raw('PRAGMA foreign_keys=1'));
     }
 }
